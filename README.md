@@ -16,7 +16,7 @@ Proyecto académico inspirado en la estructura del repositorio de referencia del
 *📄 Generar reportes del monitoreo.
 *👤 Gestionar pacientes simulados.
 
-## Cómo ejecutar
+## Dashboard
 Abre https://canva.link/bctg61trr8gegyb en un navegador y ve nuestro dashboard.
 
 ## integrantes
