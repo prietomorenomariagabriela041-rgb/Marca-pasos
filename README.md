@@ -1,6 +1,6 @@
 # Simulador Web de Marcapasos Externo
 
-Proyecto académico inspirado en la estructura del repositorio de referencia del simulador de pulsioxímetro.
+Proyecto web para la simulación de marca pasos externo 🫀
 
 
 
