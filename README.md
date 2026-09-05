@@ -3,6 +3,7 @@
 Proyecto académico inspirado en la estructura del repositorio de referencia del simulador de pulsioxímetro.
 
 #Integrantes 
+
 *Ingrid Revelo
 * Karol Barragan
 * Karen Roldan
