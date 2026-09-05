@@ -1,0 +1,397 @@
+const $ = id => document.getElementById(id);
+
+const canvas = $("ecg");
+const ctx = canvas.getContext("2d");
+
+let running = false;
+let phase = 0;
+let last = performance.now();
+let battery = 92;
+
+
+/* SLIDERS */
+
+function bindRange(id, output, decimals = 0) {
+
+    $(id).addEventListener("input", () => {
+
+        $(output).textContent =
+            Number($(id).value).toFixed(decimals);
+
+    });
+}
+
+bindRange("rate", "rateValue");
+bindRange("output", "outputValue", 1);
+bindRange("sensitivity", "sensitivityValue", 1);
+bindRange("intrinsic", "intrinsicValue");
+
+
+/* CAMBIO DE MODO */
+
+$("mode").addEventListener("change", () => {
+
+    $("modeBadge").textContent =
+        "Modo " + $("mode").value;
+
+});
+
+
+/* INICIAR */
+
+$("simulate").onclick = () => {
+
+    running = true;
+
+    $("status").textContent =
+        "● SIMULACIÓN EN CURSO";
+
+    updateAI();
+
+};
+
+
+/* PAUSAR */
+
+$("pause").onclick = () => {
+
+    running = false;
+
+    $("status").textContent =
+        "● SIMULACIÓN PAUSADA";
+
+};
+
+
+/* RESTABLECER */
+
+$("reset").onclick = () => {
+
+    running = false;
+
+    $("rate").value = 70;
+    $("rateValue").textContent = "70";
+
+    $("output").value = 5;
+    $("outputValue").textContent = "5.0";
+
+    $("sensitivity").value = 2.5;
+    $("sensitivityValue").textContent = "2.5";
+
+    $("intrinsic").value = 72;
+    $("intrinsicValue").textContent = "72";
+
+    battery = 92;
+
+    $("battery").textContent = "92%";
+
+    $("paced").textContent = "0";
+
+    $("paceState").textContent =
+        "EN ESPERA";
+
+    $("rhythm").textContent =
+        "RITMO NORMAL";
+
+    $("status").textContent =
+        "● SISTEMA ACTIVO";
+
+    $("aiText").textContent =
+        'Pulsa "Iniciar simulación" para analizar el comportamiento del sistema.';
+
+};
+
+
+/* FUNCIÓN GAUSSIANA */
+
+function gaussian(x, center, width, amplitude) {
+
+    return amplitude *
+        Math.exp(
+            -Math.pow((x - center) / width, 2)
+        );
+
+}
+
+
+/* MODELO ECG */
+
+function ecgValue(x, beatPeriod, paced) {
+
+    const t =
+        ((x % beatPeriod) + beatPeriod) %
+        beatPeriod /
+        beatPeriod;
+
+    let y = 0;
+
+    // Onda P
+    y += gaussian(
+        t,
+        0.18,
+        0.025,
+        0.18
+    );
+
+    // Onda Q
+    y -= gaussian(
+        t,
+        0.28,
+        0.010,
+        0.12
+    );
+
+    // Complejo R
+    y += gaussian(
+        t,
+        0.30,
+        0.008,
+        1.00
+    );
+
+    // Onda S
+    y -= gaussian(
+        t,
+        0.325,
+        0.012,
+        0.28
+    );
+
+    // Onda T
+    y += gaussian(
+        t,
+        0.53,
+        0.075,
+        0.30
+    );
+
+    // Estímulo del marcapasos
+    if (paced && t < 0.035) {
+
+        y += gaussian(
+            t,
+            0.018,
+            0.006,
+            1.25
+        );
+
+    }
+
+    return y;
+}
+
+
+/* DIBUJAR ECG */
+
+function draw(now) {
+
+    const dt = now - last;
+
+    last = now;
+
+    if (running) {
+
+        phase += dt;
+
+    }
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /* CUADRÍCULA */
+
+    ctx.strokeStyle = "#182a31";
+    ctx.lineWidth = 1;
+
+    for (
+        let x = 0;
+        x < canvas.width;
+        x += 45
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+
+        ctx.stroke();
+
+    }
+
+
+    for (
+        let y = 0;
+        y < canvas.height;
+        y += 50
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+
+        ctx.stroke();
+
+    }
+
+
+    /* PARÁMETROS */
+
+    const intrinsic =
+        Number($("intrinsic").value);
+
+    const minimumRate =
+        Number($("rate").value);
+
+    const mode =
+        $("mode").value;
+
+
+    const pacing =
+        mode !== "ASYNC" &&
+        intrinsic < minimumRate;
+
+
+    const displayedRate =
+        pacing ?
+        minimumRate :
+        intrinsic;
+
+
+    const period =
+        60000 / displayedRate;
+
+
+    /* ECG */
+
+    ctx.beginPath();
+
+    for (
+        let x = 0;
+        x < canvas.width;
+        x++
+    ) {
+
+        const time =
+            phase + x * 8;
+
+        const y =
+            canvas.height / 2 -
+            ecgValue(
+                time,
+                period,
+                pacing
+            ) * 75;
+
+
+        if (x === 0) {
+
+            ctx.moveTo(x, y);
+
+        } else {
+
+            ctx.lineTo(x, y);
+
+        }
+
+    }
+
+
+    ctx.strokeStyle = "#65d6c4";
+    ctx.lineWidth = 2.2;
+
+    ctx.stroke();
+
+
+    /* DATOS */
+
+    $("bpm").textContent =
+        Math.round(displayedRate);
+
+    $("paced").textContent =
+        pacing ? minimumRate : 0;
+
+
+    $("paceState").textContent =
+        pacing ?
+        "ESTIMULANDO" :
+        "EN ESPERA";
+
+
+    $("rhythm").textContent =
+        pacing ?
+        "RITMO SOPORTADO" :
+        "RITMO INTRÍNSECO";
+
+
+    /* SENSIBILIDAD */
+
+    $("capture").textContent =
+        Number($("sensitivity").value) <= 4
+        ? "ADECUADA"
+        : "REVISAR";
+
+
+    /* BATERÍA */
+
+    if (running && pacing) {
+
+        battery -= 0.00025;
+
+        $("battery").textContent =
+            Math.max(
+                0,
+                battery
+            ).toFixed(1) + "%";
+
+    }
+
+
+    requestAnimationFrame(draw);
+
+}
+
+
+/* ASISTENCIA INTELIGENTE */
+
+function updateAI() {
+
+    const intrinsic =
+        Number($("intrinsic").value);
+
+    const minimumRate =
+        Number($("rate").value);
+
+    const output =
+        Number($("output").value);
+
+
+    if (intrinsic < minimumRate) {
+
+        $("aiText").textContent =
+            `La frecuencia intrínseca simulada (${intrinsic} BPM) está por debajo de la frecuencia mínima programada (${minimumRate} BPM). El simulador representa estímulos para mantener la frecuencia objetivo. Salida configurada: ${output.toFixed(1)} mA.`;
+
+    } else {
+
+        $("aiText").textContent =
+            `La frecuencia intrínseca simulada (${intrinsic} BPM) está por encima del límite programado (${minimumRate} BPM); en este modelo, la estimulación permanece en espera.`;
+
+    }
+
+}
+
+
+setInterval(
+    updateAI,
+    700
+);
+
+
+/* INICIAR ANIMACIÓN */
+
+requestAnimationFrame(draw);
