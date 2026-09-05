@@ -2,11 +2,7 @@
 
 Proyecto académico inspirado en la estructura del repositorio de referencia del simulador de pulsioxímetro.
 
-##Integrantes 
-*Ingrid Revelo
-* Karol Barragan
-* Karen Roldan
-* Gabriela Prieto
+
 
 ## Funciones
 - Visualización simulada de ECG.
@@ -21,5 +17,8 @@ Proyecto académico inspirado en la estructura del repositorio de referencia del
 ## Cómo ejecutar
 Abre `index.html` en un navegador.
 
-## Nota
-Es una simulación educativa. No controla ni configura un marcapasos real y no debe utilizarse para decisiones clínicas.
+## integrantes+
+*Ingrid Revelo
+* Karol Barragan
+* Karen Roldan
+* Gabriela Prieto
