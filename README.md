@@ -5,14 +5,16 @@ Proyecto académico inspirado en la estructura del repositorio de referencia del
 
 
 ## Funciones
-- Visualización simulada de ECG.
-- Frecuencia cardíaca intrínseca y frecuencia mínima programable.
-- Modos AAI, VVI, DDD y ASYNC como opciones educativas.
-- Parámetros de salida y sensibilidad.
-- Indicador de estimulación.
-- Estado de batería, electrodo y captura.
-- Módulo de asistencia inteligente explicativo.
-- Interfaz adaptable a computador y celular.
+🫀 Monitorear la frecuencia cardíaca.
+📈 Visualizar la señal EKG en tiempo real.
+⚙️ Simular y configurar parámetros del marcapasos.
+🔋 Consultar el estado y batería del dispositivo.
+🚨 Detectar y mostrar alertas.
+🤖 Analizar señales mediante IA.
+📊 Mostrar gráficas y tendencias.
+📝 Registrar el historial de eventos.
+📄 Generar reportes del monitoreo.
+👤 Gestionar pacientes simulados.
 
 ## Cómo ejecutar
 Abre https://canva.link/bctg61trr8gegyb en un navegador y ve nuestro dashboard.
