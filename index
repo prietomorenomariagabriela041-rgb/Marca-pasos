@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Marcapasos Externo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <div>
+            <p class="eyebrow">INGENIERÍA BIOMÉDICA · SIMULACIÓN EDUCATIVA</p>
+            <h1>Simulador de Marcapasos Externo</h1>
+            <p class="subtitle">
+                Plataforma para visualizar y analizar de forma simulada
+                parámetros básicos de un marcapasos externo.
+            </p>
+        </div>
+
+        <div class="status" id="status">
+            ● SISTEMA ACTIVO
+        </div>
+    </header>
+
+
+    <section class="grid">
+
+        <!-- MONITOR -->
+        <div class="card">
+
+            <div class="card-title">
+                <h2>Monitor cardíaco</h2>
+                <span id="modeBadge">Modo AAI</span>
+            </div>
+
+            <canvas id="ecg" width="900" height="300"></canvas>
+
+            <div class="metrics">
+
+                <div>
+                    <span>Frecuencia cardíaca</span>
+                    <strong>
+                        <span id="bpm">72</span>
+                        <small>BPM</small>
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Estimulación</span>
+                    <strong>
+                        <span id="paced">0</span>
+                        <small>ppm</small>
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Estado</span>
+                    <strong id="rhythm">
+                        RITMO NORMAL
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTROLES -->
+        <div class="card controls">
+
+            <h2>Parámetros del marcapasos</h2>
+
+            <label>
+                Modo de estimulación
+
+                <select id="mode">
+                    <option>AAI</option>
+                    <option>VVI</option>
+                    <option>DDD</option>
+                    <option>ASYNC</option>
+                </select>
+            </label>
+
+
+            <label>
+                Frecuencia mínima:
+                <b><span id="rateValue">70</span> BPM</b>
+
+                <input
+                    id="rate"
+                    type="range"
+                    min="40"
+                    max="120"
+                    value="70">
+            </label>
+
+
+            <label>
+                Salida de estimulación:
+                <b><span id="outputValue">5.0</span> mA</b>
+
+                <input
+                    id="output"
+                    type="range"
+                    min="0.5"
+                    max="10"
+                    step="0.5"
+                    value="5">
+            </label>
+
+
+            <label>
+                Sensibilidad:
+                <b><span id="sensitivityValue">2.5</span> mV</b>
+
+                <input
+                    id="sensitivity"
+                    type="range"
+                    min="0.5"
+                    max="10"
+                    step="0.5"
+                    value="2.5">
+            </label>
+
+
+            <label>
+                Frecuencia cardíaca intrínseca:
+                <b><span id="intrinsicValue">72</span> BPM</b>
+
+                <input
+                    id="intrinsic"
+                    type="range"
+                    min="30"
+                    max="140"
+                    value="72">
+            </label>
+
+
+            <button id="simulate">
+                ▶ Iniciar simulación
+            </button>
+
+            <button id="pause" class="secondary">
+                ⏸ Pausar
+            </button>
+
+            <button id="reset" class="secondary">
+                ↻ Restablecer
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ESTADO -->
+    <section class="grid lower">
+
+        <div class="card">
+
+            <h2>Estado del dispositivo</h2>
+
+            <div class="device">
+
+                <div>
+                    <span>Batería</span>
+                    <strong id="battery">92%</strong>
+                </div>
+
+                <div>
+                    <span>Electrodo</span>
+                    <strong id="lead">CONECTADO</strong>
+                </div>
+
+                <div>
+                    <span>Captura</span>
+                    <strong id="capture">ADECUADA</strong>
+                </div>
+
+                <div>
+                    <span>Estimulación</span>
+                    <strong id="paceState">
+                        EN ESPERA
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- IA -->
+        <div class="card">
+
+            <h2>Asistencia inteligente</h2>
+
+            <p id="aiText">
+                Pulsa "Iniciar simulación" para analizar
+                el comportamiento del sistema.
+            </p>
+
+            <div class="note">
+                Uso académico. Los valores mostrados son simulados
+                y no deben utilizarse para tomar decisiones clínicas.
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
