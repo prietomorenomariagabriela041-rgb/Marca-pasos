@@ -2,6 +2,12 @@
 
 Proyecto académico inspirado en la estructura del repositorio de referencia del simulador de pulsioxímetro.
 
+#Integrantes 
+*Ingrid Revelo
+* Karol Barragan
+* Karen Roldan
+* Gabriela Prieto
+
 ## Funciones
 - Visualización simulada de ECG.
 - Frecuencia cardíaca intrínseca y frecuencia mínima programable.
