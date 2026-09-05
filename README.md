@@ -2,7 +2,7 @@
 
 Proyecto web para la simulación de marca pasos externo
 
-## 👥 Integrantes
+##  Integrantes
 * Ingrid Revelo
 * Karol Barragan
 * Karen Roldan
