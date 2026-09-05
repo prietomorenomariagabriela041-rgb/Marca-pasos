@@ -15,10 +15,11 @@ Proyecto académico inspirado en la estructura del repositorio de referencia del
 - Interfaz adaptable a computador y celular.
 
 ## Cómo ejecutar
-Abre `index.html` en un navegador.
+Abre https://canva.link/bctg61trr8gegyb en un navegador y ve nuestro dashboard.
 
 ## integrantes
-*Ingrid Revelo
+
 * Karol Barragan
 * Karen Roldan
 * Gabriela Prieto
+* Lizeth revelo
