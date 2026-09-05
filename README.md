@@ -17,7 +17,7 @@ Proyecto académico inspirado en la estructura del repositorio de referencia del
 ## Cómo ejecutar
 Abre `index.html` en un navegador.
 
-## integrantes+
+## integrantes
 *Ingrid Revelo
 * Karol Barragan
 * Karen Roldan
